@@ -42,15 +42,37 @@ def create_experiment(
     return crud.create_experiment(db=db, experiment=experiment)
 
 
+@app.put("/experiments/{experiment_id}/", response_model=schemas.Experiment)
+def update_experiment(
+    experiment_id: int,
+    experiment: schemas.ExperimentBase,
+    db: Session = Depends(get_db),
+):
+    return crud.update_experiment(
+        db=db, experiment=experiment, experiment_id=experiment_id
+    )
+
+
+@app.patch("/experiments/{experiment_id}/reassign_teams/", response_model=schemas.Experiment)
+def reassign_experiment_teams(
+    experiment_id: int,
+    experiment: schemas.ExperimentUpdate,
+    db: Session = Depends(get_db),
+):
+    return crud.reassign_experiment_teams(
+        db=db, experiment=experiment, experiment_id=experiment_id
+    )
+
+
 @app.get("/teams/", response_model=list[schemas.Team])
 def read_teams(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     teams = crud.get_teams(db, skip=skip, limit=limit)
     return teams
 
 
-@app.get("/teams/{team_id}", response_model=schemas.Experiment)
-def read_team(team_id: int, db: Session = Depends(get_db)):
-    db_team = crud.get_team(db, team_id=team_id)
+@app.get("/teams/{team_name}", response_model=schemas.Team)
+def read_team(team_name: str, db: Session = Depends(get_db)):
+    db_team = crud.get_team(db, team_name=team_name)
     if db_team is None:
         raise HTTPException(status_code=404, detail="Team not found")
     return db_team

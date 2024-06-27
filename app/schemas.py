@@ -11,10 +11,14 @@ class ExperimentBase(BaseModel):
 
 
 class TeamCreate(TeamBase):
-    experiments: list[ExperimentBase]
+    pass
 
 
 class ExperimentCreate(ExperimentBase):
+    teams: list[TeamBase]
+
+
+class ExperimentUpdate(BaseModel):
     teams: list[TeamBase]
 
 
