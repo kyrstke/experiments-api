@@ -11,19 +11,33 @@ class ExperimentBase(BaseModel):
 
 
 class TeamCreate(TeamBase):
-    pass
+    parent_id: int | None = None
 
 
 class ExperimentCreate(ExperimentBase):
     teams: list[TeamBase]
 
 
-class ExperimentUpdate(BaseModel):
+class TeamUpdate(TeamBase):
+    parent_id: int | None = None
+
+
+class ExperimentUpdate(ExperimentBase):
+    pass
+
+
+class ExperimentReassignTeams(BaseModel):
     teams: list[TeamBase]
+
+
+class TeamChild(TeamBase):
+    id: int
 
 
 class Team(TeamBase):
     id: int
+    parent_id: int | None = None
+    children: list[TeamChild] = []
     experiments: list[ExperimentBase] = []
 
     class Config:

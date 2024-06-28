@@ -9,3 +9,4 @@ htmlcov
 .idea/
 venv/
 db/
+.ruff_cache/

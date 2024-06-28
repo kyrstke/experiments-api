@@ -30,7 +30,19 @@ class Team(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=True, nullable=False, index=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("team.id"), nullable=True)
+
+    children = relationship("Team", back_populates="parent")
+    parent = relationship("Team", back_populates="children", remote_side=[id])
 
     experiments: Mapped[list[Experiment]] = relationship(
         secondary=experiment_team_association, back_populates="teams"
     )
+
+    def is_descendant_of(self, team: Team) -> bool:
+        if self.parent_id == team.id:
+            return True
+        elif self.parent_id is None:
+            return False
+        else:
+            return self.parent.is_descendant_of(team)
