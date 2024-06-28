@@ -12,6 +12,11 @@ To run the application, you need to have [Docker](https://docs.docker.com/get-do
 
 The details related to API endpoints are available in the documentation provided by Swagger and integrated with FastAPI. You can access it at `http://localhost:8000/docs`. There are several more endpoints than reqired, to enable full CRUD operations for both experiments and teams.
 
+The documentation looks like this:
+
+![image](https://github.com/kyrstke/experiments-api/assets/25958430/5c15e9dc-a276-4a13-861c-52443719ec59)
+
+
 ## Running tests
 The tests are written using Pytest. To run the tests, run:
 
